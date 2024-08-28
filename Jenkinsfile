@@ -84,8 +84,7 @@ Dependency-Check
 
         failure {
             mail to: 'developer@example.com',
-                subject: "Pipeline Failed: 
-${currentBuild.fullDisplayName}",
+                subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
                 body: "Unfortunately, the pipeline failed."
         }
     }
