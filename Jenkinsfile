@@ -78,8 +78,7 @@ Dependency-Check
     post {
         success {
             mail to: 'developer@example.com',
-                subject: "Pipeline Success: 
-${currentBuild.fullDisplayName}",
+                subject: "Pipeline Success: ${currentBuild.fullDisplayName}",
                 body: "Good news, the pipeline completed successfully."
         }
 
