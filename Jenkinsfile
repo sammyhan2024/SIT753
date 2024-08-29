@@ -13,6 +13,20 @@ pipeline {
                 echo 'Running unit and integration tests...'
                 // Example: sh 'mvn test'
             }
+            post {
+                success {
+                    emailext subject: "Jenkins Build Successful: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                             body: "Good news! The build ${env.BUILD_NUMBER} of job ${env.JOB_NAME} passed the Unit and Integration Tests stage.",
+                             to: "s222166472@deakin.edu.au",
+                             attachLog: true
+                }
+                failure {
+                    emailext subject: "Jenkins Build Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                             body: "Oops! The build ${env.BUILD_NUMBER} of job ${env.JOB_NAME} failed at the Unit and Integration Tests stage. Check the logs for details.",
+                             to: "s222166472@deakin.edu.au",
+                             attachLog: true
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -24,6 +38,20 @@ pipeline {
             steps {
                 echo 'Performing security scan...'
                 // Example: sh 'dependency-check.sh'
+            }
+            post {
+                success {
+                    emailext subject: "Jenkins Build Successful: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                             body: "Good news! The build ${env.BUILD_NUMBER} of job ${env.JOB_NAME} passed the Security Scan stage.",
+                             to: "s222166472@deakin.edu.au",
+                             attachLog: true
+                }
+                failure {
+                    emailext subject: "Jenkins Build Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                             body: "Oops! The build ${env.BUILD_NUMBER} of job ${env.JOB_NAME} failed at the Security Scan stage. Check the logs for details.",
+                             to: "s222166472@deakin.edu.au",
+                             attachLog: true
+                }
             }
         }
         stage('Deploy to Staging') {
@@ -43,17 +71,6 @@ pipeline {
                 echo 'Deploying to production environment...'
                 // Example: sh 'ansible-playbook deploy.yml -i production'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline succeeded!'
-            // Mail configuration goes here
-        }
-        failure {
-            echo 'Pipeline failed!'
-            // Mail configuration goes here
         }
     }
 }
